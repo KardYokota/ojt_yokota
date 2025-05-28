@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+.Incomeform {
+  background: #fff;
+  border: 2px solid #1976d2;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.08);
+}
+.expenditureform {
+  background: #fff;
+  border: 2px solid #1976d2;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.08);
+}
+.button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.7rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.button:hover {
+  background: #1565c0;
+}
+.Title {
+  text-align: center; /* タイトルを中央揃え */
+  font-size: 36px;
+  border-bottom: 2px solid #000000;
+  margin-bottom: 1rem; /* タイトルとフォームの間に余白 */
+}

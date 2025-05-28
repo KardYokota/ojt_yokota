@@ -1,0 +1,140 @@
+/* 画面の外枠 */
+#app {
+  width: 80%;
+  height: 80%;
+  margin: 1rem auto;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border: #f7a335 4px solid;
+  box-sizing: border-box;
+  max-width: 1000px;
+  min-height: 600px;
+  overflow: auto;
+}
+/* タブ */
+.tab-list {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.Tab {
+  background-color: #ffffff;
+  color: #f7a335;
+  border: orange 2px solid;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition:
+    background 0.5s,
+    color 0.5s;
+}
+
+/* データ入力 */
+.formsytle {
+  position: relative;
+  margin: 0, 50%;
+  width: 400px;
+  max-width: 400px;
+  min-width: 100px;
+  /* 中央ぞろえ */
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 700px;
+  min-height: 400px;
+  padding: 0rem; /* 上下1rem、左右0.5remの余白 */
+}
+.FormButton {
+  background-color: #ffffff;
+  color: #f7a335;
+  border: 2px solid #f7a335;
+  padding: 10px 25px; /* 上下、左右の余白 */
+  font-size: 18px;
+  text-align: center; /* 中央揃え */
+  display: inline-block; /* インラインブロック要素 */
+  margin: 5px 0px; /*余白 */
+  cursor: pointer; /* カーソルをポインタに変更 */
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.FormButton.active {
+  background-color: #f7a335;
+  color: #fff;
+}
+.removeButton {
+  background-color: #b1b1b1;
+  color: #555555;
+  border: none;
+  padding: 3px 10px; /* 上下5px、左右10pxの余白 */
+  font-size: 12px;
+  margin-left: 0px;
+  cursor: pointer;
+}
+.expenditureList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #b1b1b1;
+}
+
+.removeButton {
+  margin-left: 16px;
+}
+
+/* データリスト */
+/* 一覧リスト二つを合わせた領域 */
+#listSet {
+  display: flex;
+  align-items: center; /* 中央揃え */
+  flex-wrap: wrap; /* 要素が折り返されるように */
+  justify-content: center;
+  margin: 0 auto;
+}
+/* 一覧のタイトルとリストのスクロールのを合わせた領域 */
+.listbox {
+  background: #ffffff;
+  border: 2px solid #1976d2;
+  border-radius: 12px;
+  padding: 0.5rem 1.5rem; /* 上下0.5rem、左右1.5remの余白 */
+  margin: 1rem auto; /* 上下の余白を自動で調整 */
+  margin-left: 10px; /* 左側に10pxの余白 */
+  margin-right: 10px; /* 右側に10pxの余白 */
+  flex: auto;
+  max-width: 450px;
+  min-width: 250px;
+  max-height: 500px;
+  min-height: 300px;
+}
+.list {
+  background-color: #ffffff;
+  border: 1px solid #5c5c5c;
+  max-height: 200px; /* リストの最大高さ */
+  overflow-y: auto; /* 縦方向のスクロールを有効にする */
+}
+
+/* 入力値の合計と差額 */
+.TotalAmount {
+  background: #ffffff;
+  border: 2px solid #1976d2;
+  border-radius: 12px;
+  padding: 0.5rem 1.5rem;
+  margin: 1rem auto;
+  max-width: 300px;
+  height: 200px;
+  min-width: 200px;
+}
+.Totallist {
+  text-align: center;
+  margin-top: 20px;
+}
+.Totlebox {
+  text-align: center;
+}
+.Totaltext {
+  display: inline;
+  font-size: 20px;
+  text-align: center;
+  margin: 4px 0; /* 上下の余白 */
+  border-bottom: 1.5px solid #000000;
+}
