@@ -1,30 +1,33 @@
 <script setup lang="ts">
 // typScript
-import { ref } from 'vue'
+import { ref,onMounted  } from 'vue'
 import ExpenditureForm from './components/form/ExpenditureForm.vue'
 import IncamoForm from './components/form/IncamoForm.vue'
 import ExpenditureList from './components/ExpenditureList.vue'
 import IncomeList from './components/IncomeList.vue'
 import TotalGraph from './components/TotalGraph.vue'
+import { useDataStore } from './useDataStore'
+
+// 支出と収入のリスト（storeにリストの本体がある）
+const store = useDataStore()
 
 let Expenditureid = 0
 let Incomeid = 0
 
-// 支出と収入のリスト
-const expenditures = ref<
-  {
-    Expenditureid: number
-    Text: string
-    Amount: number
-    Category: string
-    Payment: string
-    Date: string
-    Memo?: string
-  }[]
->([])
-const incomes = ref<
-  { Incomeid: number; Text: string; Amount: number; Date: string; Memo: string }[]
->([])
+
+
+onMounted(() => {
+  store.loadFromLocalStorage()
+  // IDの初期値を復元
+  if (store.expenditures.length > 0) {
+    Expenditureid = Math.max(...store.expenditures.map(e => e.Expenditureid)) + 1
+  }
+  if (store.incomes.length > 0) {
+    Incomeid = Math.max(...store.incomes.map(i => i.Incomeid)) + 1
+  }
+  console.log('支出リスト', store.expenditures);
+  console.log('収入リスト', store.incomes);
+})
 
 // 支出の追加・削除
 function addExpenditure(
@@ -36,7 +39,7 @@ function addExpenditure(
   Memo?: string,
 ) {
   if (Text.trim() !== '' && Amount !== null && Amount !== undefined && Amount !== '') {
-    expenditures.value.push({
+    store.addExpenditure({
       Expenditureid: Expenditureid++,
       Text,
       Amount: Number(Amount),
@@ -56,13 +59,19 @@ function removeExpenditure(expenditure: {
   Date: string
   Memo?: string
 }) {
-  expenditures.value = expenditures.value.filter((t) => t !== expenditure)
+  store.removeExpenditure(expenditure)
 }
 
 // 収入の追加・削除
 function addIncome(Text: string, Amount: string, Date: string, Memo: string) {
   if (Text.trim() !== '' && Amount !== null && Amount !== undefined && Amount !== '') {
-    incomes.value.push({ Incomeid: Incomeid++, Text, Amount: Number(Amount), Date, Memo })
+    store.addIncome({
+      Incomeid: Incomeid++,
+      Text,
+      Amount: Number(Amount),
+      Date,
+      Memo,
+    })
   }
 }
 function removeIncome(income: {
@@ -72,7 +81,7 @@ function removeIncome(income: {
   Date: string
   Memo: string
 }) {
-  incomes.value = incomes.value.filter((t) => t !== income)
+  store.removeIncome(income)
 }
 
 // フォームの切り替え
@@ -97,11 +106,16 @@ function switchTab(index: number) {
     }
   })
 }
+function localreset(){
+  store.resetLocalStorage()
+  console.log('ローカルストレージをリセットしました。');
+}
 </script>
 
 <template>
   <!-- HTML -->
   <div id="app">
+ <input @click="localreset()" class="localreset" type="button" value="ローカルストレージのリセット" />
     <div>
       <!-- 切り替えボタン -->
       <div class="tab-list">
@@ -125,11 +139,11 @@ function switchTab(index: number) {
       <!-- フォームの表示,更新 -->
       <div v-if="!Onswitch" class="formsytle">
         <ExpenditureForm @add="addExpenditure" />
-        <ExpenditureList :expenditures="expenditures" :removeExpenditure="removeExpenditure" />
+        <ExpenditureList :expenditures="store.expenditures" :removeExpenditure="removeExpenditure" />
       </div>
       <div v-if="Onswitch" class="formsytle">
         <IncamoForm @add="addIncome" />
-        <IncomeList :incomes="incomes" :removeIncome="removeIncome" />
+      <IncomeList :incomes="store.incomes" :removeIncome="removeIncome" /> 
       </div>
     </div>
 
@@ -142,7 +156,7 @@ function switchTab(index: number) {
           <br />
           <div class="list">
             <ul class="expenditureList">
-              <li v-for="item in expenditures" :key="item.Expenditureid">
+              <li v-for="item in store.expenditures" :key="item.Expenditureid">
                 <span>
                   {{ item.Date }} {{ item.Category }} <br />
                   {{ item.Text }} {{ item.Amount }}円 {{ item.Payment }}<br />
@@ -158,7 +172,7 @@ function switchTab(index: number) {
           <br />
           <div class="list">
             <ul class="expenditureList">
-              <li v-for="item in incomes" :key="item.Incomeid">
+              <li v-for="item in store.incomes" :key="item.Incomeid">
                 <span>
                   {{ item.Date }}<br />{{ item.Text }} &nbsp; {{ item.Amount }}円 <br />
                   <span v-if="item.Memo">メモ: &nbsp; {{ item.Memo }}</span>
@@ -175,17 +189,17 @@ function switchTab(index: number) {
         <h1 class="TotalList">合計</h1>
         <div class="Totlebox">
           <br />
-          <p class="Totaltext">収入: {{ incomes.reduce((acc, item) => acc + item.Amount, 0) }}円</p>
+          <p class="Totaltext">収入: {{ store.incomes.reduce((acc, item) => acc + item.Amount, 0) }}円</p>
           <br />
           <p class="Totaltext">
-            支出: {{ expenditures.reduce((acc, item) => acc + item.Amount, 0) }}円
+            支出: {{ store.expenditures.reduce((acc, item) => acc + item.Amount, 0) }}円
           </p>
           <br />
           <p class="Totaltext">
             差額:
             {{
-              incomes.reduce((acc, item) => acc + item.Amount, 0) -
-              expenditures.reduce((acc, item) => acc + item.Amount, 0)
+              store.incomes.reduce((acc, item) => acc + item.Amount, 0) -
+              store.expenditures.reduce((acc, item) => acc + item.Amount, 0)
             }}円
           </p>
         </div>
@@ -195,7 +209,7 @@ function switchTab(index: number) {
     <!-- グラフ表示 -->
     <div v-if="currentTab === 3">
       <div class="Graph">
-        <TotalGraph :expenditures="expenditures" />
+        <TotalGraph :expenditures="store.expenditures" />
       </div>
     </div>
   </div>

@@ -1,5 +1,10 @@
 <script setup lang="ts">
+
 import { ref } from 'vue'
+import { useDataStore } from '../../useDataStore.ts'
+
+const store = useDataStore()
+
 //definePropsを使用して、親コンポーネントからのデータを受け取る
 const emit = defineEmits<{
   (

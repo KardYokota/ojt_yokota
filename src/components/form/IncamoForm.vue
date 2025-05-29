@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useDataStore } from '../../useDataStore.ts'
+
+const store = useDataStore()
+
+
 const emit = defineEmits<{
   (e: 'add', Text: string, Amount: string, Date: string, Memo: string): void
 }>()

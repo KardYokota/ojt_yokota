@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useDataStore } from '../useDataStore'
+const store = useDataStore()
+
 defineProps<{
   incomes: { Incomeid: number; Text: string; Amount: number; Date: string; Memo: string }[]
   removeIncome: (incomes: {

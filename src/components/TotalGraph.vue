@@ -2,7 +2,10 @@
 import { computed, ref } from 'vue'
 import { Chart, Responsive, Pie, Tooltip } from 'vue3-charts'
 import type { ChartAxis } from 'vue3-charts/dist/types'
+import { useDataStore } from '../useDataStore'
 import type { Ref } from 'vue'
+
+const store = useDataStore()
 
 //データの受け取り
 const props = defineProps<{

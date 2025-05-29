@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useDataStore } from '../useDataStore'
+const store = useDataStore()
+
 //データ
 defineProps<{
   expenditures: {
