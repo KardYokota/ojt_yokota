@@ -1,21 +1,14 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
-import { useDataStore } from '../../useDataStore.ts'
-
+import { useDataStore } from '../useDataStore.ts'
+import type { categotys , payments } from '../types.ts'
 const store = useDataStore()
 
 //definePropsを使用して、親コンポーネントからのデータを受け取る
-const emit = defineEmits<{
-  (
-    e: 'add',
-    Text: string,
-    Amount: string,
-    Categolty: string,
-    Payment: string,
-    Date: string,
-    Memo?: string,
-  ): void
+const props = defineProps<{ 
+  categotys: string[]
+  payments: string[]
 }>()
 
 const newExpenditure = ref('')
@@ -25,40 +18,34 @@ const newPayment = ref('')
 const newDate = ref(new Date().toISOString().split('T')[0]) // 日付の初期値を今日の日付に設
 const newMemo = ref('')
 
-// カテゴリの選択肢
-const categotys = [
-  ' ',
-  '食費',
-  '交通費',
-  '光熱費',
-  '通信費',
-  '娯楽費',
-  '教育費',
-  '医療費',
-  'その他',
-]
-const payments = [' ', '現金', 'クレジットカード', 'デビットカード', '電子マネー', 'QRコード決済']
 
-// 支出の追加を行う関数
+ let Expenditureid = ref(
+  store.expenditures.length > 0
+    ? Math.max(...store.expenditures.map(e => e.Expenditureid)) + 1
+    : 0
+)
+
 function submit() {
-  if (newExpenditure.value.trim() !== '') {
-    emit(
-      'add',
-      newExpenditure.value,
-      newAmount.value,
-      newCategory.value,
-      newPayment.value,
-      newDate.value,
-      newMemo.value,
-    )
+  if (newExpenditure.value.trim() !== '' && newAmount.value !== '') {
+    store.addExpenditure({
+      Expenditureid: Expenditureid.value++,
+      Text: newExpenditure.value,
+      Amount: Number(newAmount.value),
+      Category: newCategory.value,
+      Payment: newPayment.value,
+      Date: newDate.value,
+      Memo: newMemo.value ?? '',
+    })
+    // 入力欄リセット
     newExpenditure.value = ''
     newAmount.value = ''
-    newCategory.value = categotys[0]
-    newPayment.value = payments[0]
-    newDate.value = new Date().toISOString().split('T')[0] // 日付を今日の日付にリセット
+    newCategory.value = ' '
+    newPayment.value = ''
+    newDate.value = new Date().toISOString().split('T')[0]
     newMemo.value = ''
   }
 }
+
 </script>
 
 <template>
@@ -73,14 +60,14 @@ function submit() {
     <br />
     <h3>カテゴリ</h3>
     <select v-model="newCategory">
-      <option v-for="Category in categotys" :key="Category" :value="Category">
+      <option v-for="Category in props.categotys" :key="Category" :value="Category">
         {{ Category }}
       </option>
     </select>
     <br />
     <h3>支払い方法</h3>
     <select v-model="newPayment">
-      <option v-for="Payment in payments" :key="Payment" :value="Payment">
+      <option v-for="Payment in props.payments" :key="Payment" :value="Payment">
         {{ Payment }}
       </option>
     </select>
@@ -97,4 +84,3 @@ function submit() {
   <RouterView />
 </template>
 
-<style scoped></style>

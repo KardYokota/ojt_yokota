@@ -1,25 +1,33 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useDataStore } from '../../useDataStore.ts'
+import { useDataStore } from '../useDataStore.ts'
 
 const store = useDataStore()
 
 
-const emit = defineEmits<{
-  (e: 'add', Text: string, Amount: string, Date: string, Memo: string): void
-}>()
-
 const newIncome = ref('')
 const newAmount = ref('')
-const newDate = ref(new Date().toISOString().split('T')[0]) // 日付の初期値を今日の日付に設定
+const newDate = ref(new Date().toISOString().split('T')[0])
 const newMemo = ref('')
 
+let Incomeid = ref(
+  store.incomes.length > 0
+    ? Math.max(...store.incomes.map(i => i.Incomeid)) + 1
+    : 0
+)
 function submit() {
-  if (newIncome.value.trim() !== '') {
-    emit('add', newIncome.value, newAmount.value, newDate.value, newMemo.value)
+  if (newIncome.value.trim() !== '' && newAmount.value !== '') {
+    store.addIncome({
+      Incomeid: Incomeid.value++,
+      Text: newIncome.value,
+      Amount: Number(newAmount.value),
+      Date: newDate.value,
+      Memo: newMemo.value,
+    })
+    // 入力欄リセット
     newIncome.value = ''
     newAmount.value = ''
-    newDate.value = new Date().toISOString().split('T')[0] // 日付を今日の日付にリセット
+    newDate.value = new Date().toISOString().split('T')[0]
     newMemo.value = ''
   }
 }
@@ -47,4 +55,3 @@ function submit() {
   <RouterView />
 </template>
 
-<style scoped></style>

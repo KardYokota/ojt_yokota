@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import ExpenditureForm from './components/form/ExpenditureForm.vue'
+import ExpenditureForm from './components/ExpenditureForm.vue'
 
 const routes = [
   {

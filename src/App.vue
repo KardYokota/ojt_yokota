@@ -1,19 +1,18 @@
 <script setup lang="ts">
 // typScript
 import { ref,onMounted  } from 'vue'
-import ExpenditureForm from './components/form/ExpenditureForm.vue'
-import IncamoForm from './components/form/IncamoForm.vue'
-import ExpenditureList from './components/ExpenditureList.vue'
-import IncomeList from './components/IncomeList.vue'
+import ExpenditureForm from './components/ExpenditureForm.vue'
+import IncamoForm from './components/IncamoForm.vue'
 import TotalGraph from './components/TotalGraph.vue'
 import { useDataStore } from './useDataStore'
+import  { categotys, payments } from './types'
+
 
 // 支出と収入のリスト（storeにリストの本体がある）
 const store = useDataStore()
 
 let Expenditureid = 0
 let Incomeid = 0
-
 
 
 onMounted(() => {
@@ -29,66 +28,12 @@ onMounted(() => {
   console.log('収入リスト', store.incomes);
 })
 
-// 支出の追加・削除
-function addExpenditure(
-  Text: string,
-  Amount: string,
-  Category: string,
-  Payment: string,
-  Date: string,
-  Memo?: string,
-) {
-  if (Text.trim() !== '' && Amount !== null && Amount !== undefined && Amount !== '') {
-    store.addExpenditure({
-      Expenditureid: Expenditureid++,
-      Text,
-      Amount: Number(Amount),
-      Category,
-      Payment,
-      Date,
-      Memo: Memo ?? '', // Memoが未入力の場合は空文字列を設定'',
-    })
-  }
-}
-function removeExpenditure(expenditure: {
-  Expenditureid: number
-  Text: string
-  Amount: number
-  Category: string
-  Payment: string
-  Date: string
-  Memo?: string
-}) {
-  store.removeExpenditure(expenditure)
-}
-
-// 収入の追加・削除
-function addIncome(Text: string, Amount: string, Date: string, Memo: string) {
-  if (Text.trim() !== '' && Amount !== null && Amount !== undefined && Amount !== '') {
-    store.addIncome({
-      Incomeid: Incomeid++,
-      Text,
-      Amount: Number(Amount),
-      Date,
-      Memo,
-    })
-  }
-}
-function removeIncome(income: {
-  Incomeid: number
-  Text: string
-  Amount: number
-  Date: string
-  Memo: string
-}) {
-  store.removeIncome(income)
-}
-
 // フォームの切り替え
 const Onswitch = ref(false) // 最初は支出
 
 // タブの切り替え
-const tabs = [1, 2, 3, 4]
+//タブの番号
+const tabs = [1, 2, 3]
 const currentTab = ref(tabs[0])
 
 function switchTab(index: number) {
@@ -140,14 +85,14 @@ function localreset(){
         </button>
       </div>
       <!-- フォームの表示,更新 -->
-      <div v-if="!Onswitch" class="formsytle">
-        <ExpenditureForm @add="addExpenditure" />
-        <ExpenditureList :expenditures="store.expenditures" :removeExpenditure="removeExpenditure" />
-      </div>
-      <div v-if="Onswitch" class="formsytle">
-        <IncamoForm @add="addIncome" />
-      <IncomeList :incomes="store.incomes" :removeIncome="removeIncome" /> 
-      </div>
+<div v-if="!Onswitch" class="formsytle">
+<ExpenditureForm :categotys="categotys" :payments="payments" />
+  <ExpenditureList :expenditures="store.expenditures" />
+</div>
+<div v-if="Onswitch" class="formsytle">
+  <IncamoForm />
+  <IncomeList :incomes="store.incomes" />
+</div>
     </div>
 
     <!-- 支出・収入のリスト -->
@@ -165,7 +110,7 @@ function localreset(){
                   {{ item.Text }} {{ item.Amount }}円 {{ item.Payment }}<br />
                   <span v-if="item.Memo">メモ: {{ item.Memo }}</span>
                 </span>
-                <button class="removeButton" @click="removeExpenditure(item)">削除</button>
+                <button class="removeButton" @click="store.removeExpenditure(item)">削除</button>
               </li>
             </ul>
           </div>
@@ -180,7 +125,7 @@ function localreset(){
                   {{ item.Date }}<br />{{ item.Text }} &nbsp; {{ item.Amount }}円 <br />
                   <span v-if="item.Memo">メモ: &nbsp; {{ item.Memo }}</span>
                 </span>
-                <button class="removeButton" @click="removeIncome(item)">削除</button>
+                <button class="removeButton" @click="store.removeIncome(item)">削除</button>
               </li>
             </ul>
           </div>

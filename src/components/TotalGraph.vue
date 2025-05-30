@@ -1,23 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { Chart, Responsive, Pie, Tooltip } from 'vue3-charts'
-import type { ChartAxis } from 'vue3-charts/dist/types'
+import type { ChartAxis, Expenditure } from '../types'
 import { useDataStore } from '../useDataStore'
 import type { Ref } from 'vue'
+
 
 const store = useDataStore()
 
 //データの受け取り
 const props = defineProps<{
-  expenditures: {
-    Expenditureid: number
-    Text: string
-    Amount: number
-    Category: string
-    Payment: string
-    Date: string
-    Memo?: string
-  }[]
+  expenditures: Expenditure[]
 }>()
 
 // カテゴリーごとに合計金額を集計
