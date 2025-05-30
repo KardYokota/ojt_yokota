@@ -12,11 +12,41 @@
   overflow: auto;
   position: relative; /* 追加 */
 }
+.titlediv
+{
+  margin-bottom: 2rem;
+}
+#apptitle
+{
+  color: #ff9c1c;
+  font-size: 40px;
+ display: inline-block; 
+  border-bottom: 4px solid #f7a335; 
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+}  
+
+.localreset
+{
+  position:absolute;
+  top: 2vw;  
+  right: 2vw;
+  border: 2px solid #666666;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-align:center;
+  margin: 0 auto;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  float: right; 
+}
+
 /* タブ */
 .tab-list {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
+  
 }
 .Tab {
   background-color: #ffffff;
@@ -28,19 +58,6 @@
   transition:
     background 0.5s,
     color 0.5s;
-}
-.localreset
-{
-  position: absolute;
-  top: 2vw;  
-  right: 2vw;
-    border: 2px solid #666666;
-  background-color: #ffffff;
-  padding: 10px 20px;
-  font-weight: bold;
-  text-align: left;
-  margin: 0 auto;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* データ入力 */

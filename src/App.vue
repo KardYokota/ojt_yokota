@@ -85,7 +85,7 @@ function removeIncome(income: {
 }
 
 // フォームの切り替え
-const Onswitch = ref(false) // 初期値は支出
+const Onswitch = ref(false) // 最初は支出
 
 // タブの切り替え
 const tabs = [1, 2, 3, 4]
@@ -115,7 +115,10 @@ function localreset(){
 <template>
   <!-- HTML -->
   <div id="app">
- <input @click="localreset()" class="localreset" type="button" value="ローカルストレージのリセット" />
+  <div class="titlediv">
+  <h1 id="apptitle">家計簿アプリ</h1>
+  </div>
+    <input @click="localreset()" class="localreset" type="button" value="ローカルストレージのリセット" />
     <div>
       <!-- 切り替えボタン -->
       <div class="tab-list">
@@ -127,7 +130,7 @@ function localreset(){
 
     <!-- 支出・収入の入力フォーム -->
     <div v-if="currentTab === 1">
-      <h1 class="Title">支出・収入の入力</h1>
+      <h1 class="Titles">支出・収入の入力</h1>
       <div>
         <button class="FormButton" :class="{ active: !Onswitch }" @click="Onswitch = false">
           支出
@@ -149,7 +152,7 @@ function localreset(){
 
     <!-- 支出・収入のリスト -->
     <div v-if="currentTab === 2">
-      <h1 class="Title">支出・収入の一覧</h1>
+      <h1 class="Titles">支出・収入の一覧</h1>
       <div id="listSet">
         <div class="listbox">
           <h1>支出一覧</h1>

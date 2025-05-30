@@ -39,7 +39,7 @@ const axis: Ref<ChartAxis> = ref({
 </script>
 
 <template>
-  <h1 class="Title">支出グラフ</h1>
+  <h1 class="Titles">支出グラフ</h1>
   <Responsive class="w-full">
     <template #main="{ width }">
       <div>

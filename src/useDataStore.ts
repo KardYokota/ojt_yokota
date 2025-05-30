@@ -25,8 +25,8 @@ export const useDataStore = defineStore('dataStore', {
       Memo: string
     }[],
   }),
-  // gettersはここでは使用しませんが、必要に応じて追加できます
  actions: {
+    // 支出を追加するメソッド
    addExpenditure(item: any) {
       this.expenditures.push(item)
       this.saveToLocalStorage() // 支出を追加し、ローカルストレージに保存
