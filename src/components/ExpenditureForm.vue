@@ -1,8 +1,6 @@
 <script setup lang="ts">
-
 import { ref } from 'vue'
 import { useDataStore } from '../useDataStore.ts'
-import type { categotys , payments } from '../types.ts'
 const store = useDataStore()
 
 //definePropsを使用して、親コンポーネントからのデータを受け取る
@@ -17,7 +15,6 @@ const newCategory = ref(' ')
 const newPayment = ref('')
 const newDate = ref(new Date().toISOString().split('T')[0]) // 日付の初期値を今日の日付に設
 const newMemo = ref('')
-
 
  let Expenditureid = ref(
   store.expenditures.length > 0
