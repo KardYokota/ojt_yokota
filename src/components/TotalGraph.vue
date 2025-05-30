@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { Chart, Responsive, Pie, Tooltip } from 'vue3-charts'
-import type { ChartAxis, Expenditure } from '../types'
+import type { Expenditure } from '../types'
 import  { Axis } from '../types'
 import { useDataStore } from '../useDataStore'
-import type { Ref } from 'vue'
 
 
 const store = useDataStore()
