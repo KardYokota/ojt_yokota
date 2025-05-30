@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { Chart, Responsive, Pie, Tooltip } from 'vue3-charts'
 import type { ChartAxis, Expenditure } from '../types'
+import  { Axis } from '../types'
 import { useDataStore } from '../useDataStore'
 import type { Ref } from 'vue'
 
@@ -22,12 +23,6 @@ const categoryData = computed(() => {
   }
   // グラフ用データ形式に変換
   return Array.from(map, ([Category, Amount]) => ({ Category, Amount }))
-})
-
-// グラフの軸設定(円グラフの場合は通常は非表示)
-const axis: Ref<ChartAxis> = ref({
-  primary: { hide: true, domain: ['dataMin', 'dataMax'], type: 'band' },
-  secondary: { hide: true, domain: ['dataMin', 'dataMax'], type: 'band' },
 })
 </script>
 
@@ -72,7 +67,7 @@ const axis: Ref<ChartAxis> = ref({
             right: 0,
             bottom: 0,
           }"
-          :axis="axis"
+          :axis=Axis
           :config="{ controlHover: false }"
         >
           <template #layers>

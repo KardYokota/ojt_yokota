@@ -1,5 +1,6 @@
 import type { ChartAxis } from 'vue3-charts/dist/types'
-
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 // 支出データ型
 export interface Expenditure {
   Expenditureid: number
@@ -11,6 +12,12 @@ export interface Expenditure {
   Memo?: string
 }
 
+// グラフの軸設定(円グラフの場合は通常は非表示)
+export const Axis: Ref<ChartAxis> = ref({
+  primary: { hide: true, domain: ['dataMin', 'dataMax'], type: 'band' },
+  secondary: { hide: true, domain: ['dataMin', 'dataMax'], type: 'band' },
+})
+//入力フォーム用
 // カテゴリの選択肢
  export const categotys = [
   ' ',
